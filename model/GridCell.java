@@ -5,16 +5,16 @@ import java.io.Serializable;
 public class GridCell implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private double vegetationDensity;
+	private int vegetationDensity;
 	private boolean onFire;
 	
-	public GridCell(double vegetationDensity, boolean onFire)
+	public GridCell(int vegetationDensity, boolean onFire)
 	{
 		this.vegetationDensity = vegetationDensity;
 		this.onFire = onFire;
 	}
 	
-	public double getVegetationDensity() 
+	public int getVegetationDensity() 
 	{
 		return vegetationDensity;
 	}
@@ -24,7 +24,7 @@ public class GridCell implements Serializable{
 		return onFire;
 	}
 	
-	public void setVegetationDensity(double vegetationDensity)
+	public void setVegetationDensity(int vegetationDensity)
 	{
 		this.vegetationDensity = vegetationDensity;
 	}

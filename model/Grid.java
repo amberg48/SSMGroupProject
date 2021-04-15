@@ -54,4 +54,25 @@ public class Grid implements Serializable{
 	{
 		this.windSpeed = windSpeed;
 	}
+	
+	public String toString()
+	{
+		String result = "";
+		for (int i = 0; i < grid.length; i++)
+		{
+			for (int j = 0; j < grid[0].length; j++)
+			{
+				if (grid[i][j].getOnFire())
+				{
+					result += "F ";
+				}
+				else 
+				{
+					result += grid[i][j].getVegetationDensity() + " ";
+				}
+			}
+			result += "\n";
+		}
+		return result;
+	}
 }

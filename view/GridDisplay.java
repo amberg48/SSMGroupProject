@@ -1,20 +1,73 @@
 package view;
 
-import javax.swing.*;
+import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.util.ArrayList;
 
-public class GridDisplay {
+/**
+ * Class for displaying cell information on UI
+ * Receives updates from controller
+ * @author Brett Amberge
+ * @version 4.19.21
+ */
 
-    public static void main(String[] args) {
-        JFrame f = new JFrame();    // creating instance of JFrame
+public class GridDisplay extends JPanel{
 
-        JButton b = new JButton("click"); // creating instance of JButton
-        b.setBounds(130,100,100,40); // x-axis, y-axis, width, height
+    int width, height;
+    int rows;
+    int columns;
+    static ArrayList<CellDisplay> cells;
 
-        f.add(b); // adding button in JFrame
-
-        f.setSize(400, 500); // 400 width and 500 height
-        f.setLayout(null);  // using no layout managers
-        f.setVisible(true); // making the frame visible
+    public GridDisplay(int w, int h, int r, int c) {
+        this.width = w;
+        this.height = h;
+        this.rows = r;
+        this.columns = c;
     }
 
+    public static void main(String[] args) {
+        cells = new ArrayList<>();
+
+        for(int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                cells.add(new CellDisplay(Color.green, 20*i, 20*j));
+            }
+        }
+
+        JFrame f = new JFrame();
+        GridDisplay xyz = new GridDisplay(200, 200, 20, 20);
+        f.add(xyz);
+        f.pack();
+        f.setSize(200, 200);
+        f.setVisible(true);
+    }
+
+    public void paint(Graphics g) {
+        int i;
+        width = getSize().width;
+        height = getSize().height;
+
+        int rowHt = height/(rows);
+        int rowWid = width/columns;
+
+        // draw the cells
+        for(CellDisplay cell: cells) {
+            g.setColor(cell.getColor());
+            g.drawRect(cell.getxPos(), cell.getyPos(), rowWid, rowHt);
+            g.fillRect(cell.getxPos(), cell.getyPos(), rowWid, rowHt);
+        }
+
+        g.setColor(Color.black);
+
+        // draw the rows
+        for(i = 0; i < rows; i++) {
+            g.drawLine(0, i*rowHt, width, i*rowHt);
+        }
+
+        // draw the columns
+        for(i = 0; i < columns; i++) {
+            g.drawLine(i*rowWid, 0, i*rowWid, height);
+        }
+    }
 }

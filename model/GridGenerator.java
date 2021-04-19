@@ -10,11 +10,11 @@ public class GridGenerator {
 	
 	public static Grid uniformGenerator()
 	{
-		Grid grid = new Grid(50, 50);
+		Grid grid = new Grid(20, 20);
 		
-		for(int i = 0; i < 50; i++)
+		for(int i = 0; i < 20; i++)
 		{
-			for(int j = 0; j < 50; j++)
+			for(int j = 0; j < 20; j++)
 			{
 				grid.setGridCell(new GridCell(50, false), i, j);
 			}

@@ -1,8 +1,7 @@
 package view;
 
 import java.awt.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -39,7 +38,8 @@ public class GridDisplay extends JPanel{
         GridDisplay xyz = new GridDisplay(200, 200, 20, 20);
         f.add(xyz);
         f.pack();
-        f.setSize(200, 200);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        f.setSize(416, 438);
         f.setVisible(true);
     }
 

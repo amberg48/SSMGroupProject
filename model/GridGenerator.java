@@ -5,8 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Random;
 
 public class GridGenerator {
+	
+	private static Random rand = new Random();
 	
 	public static Grid uniformGenerator()
 	{
@@ -22,11 +25,26 @@ public class GridGenerator {
 		grid.getGridCell(0, 0).setOnFire(true);
 		return grid;
 	}
+	
+	public static Grid randomGenerator()
+	{
+		Grid grid = new Grid(20, 20);
+		
+		for(int i = 0; i < 20; i++)
+		{
+			for(int j = 0; j < 20; j++)
+			{
+				grid.setGridCell(new GridCell(rand.nextInt(101), false), i, j);
+			}
+		}
+		grid.getGridCell(rand.nextInt(20), rand.nextInt(20)).setOnFire(true);
+		return grid;
+	}
 
 	public static void main(String[] args)
 	{
-		Grid grid = uniformGenerator();
-		String output = "grids/uniform.ser";
+		Grid grid = randomGenerator();
+		String output = "src/grids/random.ser";
 		System.out.println(grid);
 		// Writes grid to file
 		try 

@@ -16,7 +16,7 @@ public class GridDisplay extends JPanel{
     int width, height;
     int rows;
     int columns;
-    static ArrayList<CellDisplay> cells;
+    CellDisplay[][] cells;
 
     public GridDisplay(int w, int h, int r, int c) {
         this.width = w;
@@ -25,17 +25,11 @@ public class GridDisplay extends JPanel{
         this.columns = c;
     }
 
-    public static void main(String[] args) {
-        cells = new ArrayList<>();
-
-        for(int i = 0; i < 20; i++) {
-            for (int j = 0; j < 20; j++) {
-                cells.add(new CellDisplay(Color.green, 20*i, 20*j));
-            }
-        }
+    public void drawGrid(CellDisplay[][] c) {
+        this.cells = c;
 
         JFrame f = new JFrame();
-        GridDisplay xyz = new GridDisplay(200, 200, 20, 20);
+        GridDisplay xyz = new GridDisplay(400, 400, 20, 20);
         f.add(xyz);
         f.pack();
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -45,17 +39,17 @@ public class GridDisplay extends JPanel{
 
     public void paint(Graphics g) {
         int i;
-        width = getSize().width;
-        height = getSize().height;
 
         int rowHt = height/(rows);
         int rowWid = width/columns;
 
         // draw the cells
-        for(CellDisplay cell: cells) {
-            g.setColor(cell.getColor());
-            g.drawRect(cell.getxPos(), cell.getyPos(), rowWid, rowHt);
-            g.fillRect(cell.getxPos(), cell.getyPos(), rowWid, rowHt);
+        for(int x = 0; x < rows; x++) {
+            for(int y = 0; y < columns; y++) {
+                g.setColor(cells[x][y].getColor());
+                g.drawRect(x*20, y*20, rowWid, rowHt);
+                g.fillRect(x*20, y*20, rowWid, rowHt);
+            }
         }
 
         g.setColor(Color.black);

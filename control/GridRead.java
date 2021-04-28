@@ -8,9 +8,13 @@ public class GridRead {
 
     // Used to get adjacen t cells
     private static int[][] directions = new int[][]{{-1,-1}, {-1,0}, {-1,1},  {0,1}, {1,1},  {1,0},  {1,-1},  {0, -1}};
-
-    public GridRead() {
-
+    
+    
+    private Grid grid;
+    
+    
+    public GridRead(Grid grid) {
+    	this.grid = grid;
     }
 
     /**
@@ -43,5 +47,46 @@ public class GridRead {
       
       return res;
 }
+    
+    public void step()
+    {
+    	for (int i = 0; i < 20; i++)
+    	{
+    		for (int j = 0; j < 20; j++)
+    		{
+    			if (!grid.getGridCell(i, j).getOnFire())
+    			{
+    				double spreadChance = 0.0;	// Chance of fire to spread to current square
+        			// Calculate probability here
+        			
+        			
+        			// Sets cell on fire based on calculated spreadChance
+        			if (spreadChance > Math.random()) {
+        				grid.getGridCell(i, j).setOnFire(true);
+        			}
+    			}
+    			else 
+    			{
+    				double extinguishChance = 0.0;	// Chance of fire to extinguish / balk
+    				// Calculate probability here
+    				
+    				
+    				if (extinguishChance > Math.random()) {
+    					grid.getGridCell(i, j).setOnFire(false);
+    				}
+    				
+    				// Decrement vegetation density, and check if any fuel is left
+    				grid.getGridCell(i, j).setVegetationDensity(grid.getGridCell(i, j).getVegetationDensity() - 1);
+    				if (grid.getGridCell(i, j).getVegetationDensity() == 0)
+    				{
+    					grid.getGridCell(i, j).setOnFire(false);
+    				}
+    				
+    			}
+    			
+    		}
+    	}
+    }
+    
     
 }

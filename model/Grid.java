@@ -64,11 +64,11 @@ public class Grid implements Serializable{
 			{
 				if (grid[i][j].getOnFire())
 				{
-					result += "F ";
+					result += "F   ";
 				}
 				else 
 				{
-					result += grid[i][j].getVegetationDensity() + " ";
+					result += String.format("%1$-4s", grid[i][j].getVegetationDensity());
 				}
 			}
 			result += "\n";

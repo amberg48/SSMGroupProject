@@ -1,5 +1,4 @@
 package model;
-
 import java.io.Serializable;
 
 public class Grid implements Serializable{
@@ -23,6 +22,10 @@ public class Grid implements Serializable{
 		grid = new GridCell[height][width];
 		this.windDirection = windDirection;
 		this.windSpeed = windSpeed;
+	}
+
+	public GridCell[][] getGridCells(){
+		return grid;
 	}
 	
 	public GridCell getGridCell(int x, int y)

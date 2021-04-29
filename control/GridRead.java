@@ -25,7 +25,7 @@ public class GridRead {
      * @param y Y coordinate of grid.
      * @return Whether or not the grid cell is on fire.
      */
-    public boolean checkForFire(Grid grid, int x, int y){
+    public boolean checkForFire(int x, int y){
         return grid.getGridCell(x, y).getOnFire();
     }
 
@@ -43,9 +43,9 @@ public class GridRead {
         for (int[] direction : directions) {
             int cx = x + direction[0];
             int cy = y + direction[1];
-            if(cy >=0 && cy < grid.getGridCells().length)
-                if(cx >= 0 && cx < grid.getGridCells()[cy].length)
-                    res.add(grid.getGridCells()[cy][cx]);
+            if(cx >=0 && cx < grid.getGridCells().length)
+                if(cy >= 0 && cy < grid.getGridCells()[cx].length)
+                    res.add(grid.getGridCells()[cx][cy]);
         }
         
         return res;
@@ -69,7 +69,7 @@ public class GridRead {
         int vegetationDensity = this.grid.getGridCell(i, j).getVegetationDensity();
 
         // Calculate chance to spread
-        return (numCellsOnFire / numCells) * vegetationDensity;
+        return (numCellsOnFire / numCells) * vegetationDensity / 100;
     }
     
     public void step()
@@ -82,7 +82,6 @@ public class GridRead {
     			{
     				double spreadChance = getSpreadChance(i, j);	// Chance of fire to spread to current square
         			// Calculate probability here
-        			
         			
         			// Sets cell on fire based on calculated spreadChance
         			if (spreadChance > Math.random()) {
@@ -100,7 +99,11 @@ public class GridRead {
     				}
     				
     				// Decrement vegetation density, and check if any fuel is left
-    				grid.getGridCell(i, j).setVegetationDensity(grid.getGridCell(i, j).getVegetationDensity() - 1);
+    				grid.getGridCell(i, j).setVegetationDensity(grid.getGridCell(i, j).getVegetationDensity() - 5);
+    				if (grid.getGridCell(i, j).getVegetationDensity() < 0)
+    				{
+    					grid.getGridCell(i, j).setVegetationDensity(0);
+    				}
     				if (grid.getGridCell(i, j).getVegetationDensity() == 0)
     				{
     					grid.getGridCell(i, j).setOnFire(false);

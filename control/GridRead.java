@@ -38,7 +38,7 @@ public class GridRead {
      * @param y Y coordinate
      * @return List of surrounding items.
      */
-    public List<GridCell> getSurroundings(Grid grid, int x, int y){
+    public List<GridCell> getSurroundings(int x, int y){
         List<GridCell> res = new ArrayList<GridCell>();
         for (int[] direction : directions) {
             int cx = x + direction[0];
@@ -50,6 +50,27 @@ public class GridRead {
         
         return res;
     }
+
+    public double getSpreadChance(int i, int j){
+        // Get number of adjacent cells
+        List<GridCell> adjacentCells = getSurroundings(i, j);
+        int numCells = adjacentCells.size();
+
+        // Get number of adjacent cells that are on fire
+        double numCellsOnFire = 0; // This needs to be a double so that we can get regular division
+                                  // and not get thrown 0 as our return value.
+        for(GridCell gc : adjacentCells){
+            if(gc.getOnFire() == true){
+                numCellsOnFire++;
+            }
+        }
+
+        // Get vegetation density
+        int vegetationDensity = this.grid.getGridCell(i, j).getVegetationDensity();
+
+        // Calculate chance to spread
+        return (numCellsOnFire / numCells) * vegetationDensity;
+    }
     
     public void step()
     {
@@ -59,7 +80,7 @@ public class GridRead {
     		{
     			if (!grid.getGridCell(i, j).getOnFire())
     			{
-    				double spreadChance = 0.0;	// Chance of fire to spread to current square
+    				double spreadChance = getSpreadChance(i, j);	// Chance of fire to spread to current square
         			// Calculate probability here
         			
         			

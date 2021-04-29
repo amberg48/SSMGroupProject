@@ -2,7 +2,7 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
-import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class for displaying cell information on UI
@@ -16,7 +16,8 @@ public class GridDisplay extends JPanel{
     int width, height;
     int rows;
     int columns;
-    CellDisplay[][] cells;
+    static CellDisplay[][] cells;
+    static JFrame f = new JFrame();
 
     public GridDisplay(int w, int h, int r, int c) {
         this.width = w;
@@ -25,10 +26,26 @@ public class GridDisplay extends JPanel{
         this.columns = c;
     }
 
-    public void drawGrid(CellDisplay[][] c) {
-        this.cells = c;
+    /**
+    public static void main(String... args) throws InterruptedException{
+        CellDisplay[][] c = new CellDisplay[20][20];
+        for(int x = 0; x < 20; x++) {
+            for (int y = 0; y < 20; y++) {
+                c[x][y] = new CellDisplay(Color.green, x, y);
+            }
+        }
+        initDraw();
+        updateGrid(c);
+        TimeUnit.SECONDS.sleep(5);
+        c[10][10].setColor(Color.red);
+        updateGrid(c);
+    }
+    */
 
-        JFrame f = new JFrame();
+    /**
+     * Draw the initial JFrame object
+     */
+    public static void initDraw() {
         GridDisplay xyz = new GridDisplay(400, 400, 20, 20);
         f.add(xyz);
         f.pack();
@@ -37,6 +54,19 @@ public class GridDisplay extends JPanel{
         f.setVisible(true);
     }
 
+    /**
+     * Update the JFrame object to match the new grid
+     * @param c New grid to draw
+     */
+    public static void updateGrid(CellDisplay[][] c) {
+        cells = c;
+        f.repaint();
+    }
+
+    /**
+     * Override the JFrame's paint method to draw grid of colored squares
+     * @param g JFrame Graphics
+     */
     public void paint(Graphics g) {
         int i;
 

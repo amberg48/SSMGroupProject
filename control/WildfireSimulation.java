@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 import model.Grid;
+import view.GridDisplay;
 
 public class WildfireSimulation {
 
 	public static void main(String[] args) throws InterruptedException {
-		String input = "src/grids/random.ser";
+		String input = "grids/random.ser";
 		
 		// Read grid from given file
 		Grid grid = null;
@@ -32,9 +33,13 @@ public class WildfireSimulation {
 		}
 		
 		System.out.println(grid);
-		
+
+		GridDisplay display = new GridDisplay(400, 400, 20, 20);
+
 		// Create controller
-		GridRead controller = new GridRead(grid);
+		GridRead controller = new GridRead(grid, display);
+		display.initDraw();
+		display.updateGrid(controller.gridToDisplay(grid));
 		
 		// Temporary, runs Simulation for 20 steps then ends.
 		for (int i = 0; i < 20; i++) 
@@ -43,6 +48,7 @@ public class WildfireSimulation {
 			controller.step();
 			// Update display
 			System.out.println(grid.toString());
+			display.updateGrid(controller.gridToDisplay(grid));
 			Thread.sleep(500);
 		}
 

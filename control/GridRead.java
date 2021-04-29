@@ -1,22 +1,49 @@
 package control;
 import model.Grid;
 import model.GridCell;
+import view.CellDisplay;
+import view.GridDisplay;
+import java.awt.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GridRead {
 
-    // Used to get adjacen t cells
+    // Used to get adjacent cells
     private static int[][] directions = new int[][]{{-1,-1}, {-1,0}, {-1,1},  {0,1}, {1,1},  {1,0},  {1,-1},  {0, -1}};
     
     
     private Grid grid;
+    private GridDisplay display;
     
     
-    public GridRead(Grid grid) {
+    public GridRead(Grid grid, GridDisplay display) {
     	this.grid = grid;
+    	this.display = display;
     }
+
+	/**
+	 * Convert the information from a grid object to a celldisplay
+	 * @param grid Grid information
+	 * @return Display information
+	 */
+	public CellDisplay[][] gridToDisplay(Grid grid) {
+    	CellDisplay[][] cells = display.getCells();
+    	for(int i=0; i<display.getRows(); i++) {
+    		for(int j=0; j<display.getColumns(); j++) {
+    			Color color;
+    			if(grid.getGridCell(i, j).getOnFire()) {
+    				color = new Color(1f, 0f, 0f);
+				} else {
+    				float g = (float)(grid.getGridCell(i, j).getVegetationDensity())/100;
+    				color = new Color(0f, g, 0f);
+				}
+    			cells[i][j].setColor(color);
+			}
+		}
+    	return cells;
+	}
 
     /**
      * Checks whether or not a grid cell at a given point is on fire or not.
@@ -33,7 +60,7 @@ public class GridRead {
      * Returns all grid cells from a given x, y coordinate.
      * WILL NOT include given coordinate in returned List.
      * 
-     * @param matrix The 2d array that the Grid is composed of.
+     * @param grid The 2d array that the Grid is composed of.
      * @param x X coordinate
      * @param y Y coordinate
      * @return List of surrounding items.

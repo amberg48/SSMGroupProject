@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @version 4.19.21
  */
 
-public class GridDisplay extends JPanel{
+public class GridDisplay extends JPanel {
 
     int width, height;
     int rows;
@@ -24,6 +24,12 @@ public class GridDisplay extends JPanel{
         this.height = h;
         this.rows = r;
         this.columns = c;
+        cells = new CellDisplay[rows][columns];
+        for(int x = 0; x < 20; x++) {
+            for (int y = 0; y < 20; y++) {
+                cells[x][y] = new CellDisplay(Color.green, x, y);
+            }
+        }
     }
 
     /**
@@ -93,5 +99,17 @@ public class GridDisplay extends JPanel{
         for(i = 0; i < columns; i++) {
             g.drawLine(i*rowWid, 0, i*rowWid, height);
         }
+    }
+
+    public CellDisplay[][] getCells() {
+        return cells;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getColumns() {
+        return columns;
     }
 }

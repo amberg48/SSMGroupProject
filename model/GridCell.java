@@ -14,7 +14,7 @@ public class GridCell implements Serializable{
 		this.onFire = onFire;
 	}
 	
-	public int getVegetationDensity() 
+	public int getVegetationDensity()
 	{
 		return vegetationDensity;
 	}

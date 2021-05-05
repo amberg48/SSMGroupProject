@@ -66,7 +66,8 @@ public class WildfireSimulation {
 				count++;
 				
 			}
-			String info = "Iteration: " + i + "    Cell On Fire: " + grid.getGridCell(x, y).getOnFire() + "    Count: " + count + "    P: " + count/(i+1.0);
+			String info = "Iteration: " + i + "    Cell On Fire: " + onFire + "    Count: " 
+					+ count + "    P: " + String.format("%.3f", count/(i+1.0));
 			System.out.println(info);
 			display.updateLabel(info);
 		}

@@ -173,9 +173,7 @@ public class GridRead {
     			}
     			else 
     			{
-    				double extinguishChance = 0.0;	// Chance of fire to extinguish / balk
-    				// Calculate probability here
-    				
+    				double extinguishChance = (.01 - (0.0001 * grid.getGridCell(i, j).getVegetationDensity()));	// Chance of fire to extinguish / balk
     				
     				if (extinguishChance > Math.random()) {
     					grid.getGridCell(i, j).setOnFire(false);

@@ -59,7 +59,9 @@ public class GridRead {
     /**
      * Returns all grid cells from a given x, y coordinate.
      * WILL NOT include given coordinate in returned List.
-     *
+     * 
+     * This function was adapated from code found from StackOverflow
+     * Citation: https://stackoverflow.com/questions/2035522/get-adjacent-elements-in-a-two-dimensional-array
      * @param x X coordinate
      * @param y Y coordinate
      * @return List of surrounding items.

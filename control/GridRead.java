@@ -86,9 +86,9 @@ public class GridRead {
             int cx = x + direction[0];
             int cy = y + direction[1];
             // Only get directions of cells that are on fire
-            if(grid.getGridCell(cx,cy).getOnFire())
-                if(cx >=0 && cx < grid.getGridCells().length)
-                    if(cy >= 0 && cy < grid.getGridCells()[cx].length)
+            if(cx >=0 && cx < grid.getGridCells().length)
+                if(cy >= 0 && cy < grid.getGridCells()[cx].length)
+                    if(grid.getGridCell(cx,cy).getOnFire())
                         res.add(directions_String[currDirectionIndex]);
             currDirectionIndex++;
         }

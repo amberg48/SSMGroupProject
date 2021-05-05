@@ -12,7 +12,7 @@ public class WildfireSimulation {
 	public static void main(String[] args) throws InterruptedException {
 		
 		// Default argument values
-		String input = "src/grids/random.ser";
+		String input = "-grids/random.ser";
 		int simulations = 100;
 		int iterations  = 30;
 		int timestep = 20;
@@ -59,9 +59,11 @@ public class WildfireSimulation {
 		
 		int count = 0;
 		
+    GridDisplay display = new GridDisplay(400, 400, 20, 20);
+		display.initDraw();
+    
 		for (int i = 0; i < simulations; i++)
 		{
-			
 			// Read grid from given file
 			Grid grid = null;
 			try 
@@ -82,13 +84,12 @@ public class WildfireSimulation {
 				c.printStackTrace();
 			}
 
-			GridDisplay display = new GridDisplay(400, 400, 20, 20);
-
+			
+			
 			// Create controller
 			GridRead controller = new GridRead(grid, display);
-			display.initDraw();
+			
 			display.updateGrid(controller.gridToDisplay(grid));
-		
 			boolean onFire = false;
 			for (int j = 0; j < iterations; j++) 
 			{
@@ -108,7 +109,11 @@ public class WildfireSimulation {
 				count++;
 				
 			}
-			System.out.println("Iteration: " + i + "\tCell On Fire: " + onFire + "\tCount: " + count + "\tP: " + count/(i+1.0));
+
+			String info = "Iteration: " + i + "    Cell On Fire: " + onFire + "    Count: " 
+					+ count + "    P: " + String.format("%.3f", count/(i+1.0));
+			System.out.println(info);
+			display.updateLabel(info);
 		}
 
 	}

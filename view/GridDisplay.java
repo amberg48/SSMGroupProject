@@ -16,8 +16,10 @@ public class GridDisplay extends JPanel {
     int width, height;
     int rows;
     int columns;
+    static String labelText = "Start Simulation";
     static CellDisplay[][] cells;
     static JFrame f = new JFrame();
+    static JLabel l;
 
     public GridDisplay(int w, int h, int r, int c) {
         this.width = w;
@@ -33,6 +35,7 @@ public class GridDisplay extends JPanel {
     }
 
     /**
+    // Driver for testing
     public static void main(String... args) throws InterruptedException{
         CellDisplay[][] c = new CellDisplay[20][20];
         for(int x = 0; x < 20; x++) {
@@ -45,18 +48,25 @@ public class GridDisplay extends JPanel {
         TimeUnit.SECONDS.sleep(5);
         c[10][10].setColor(Color.red);
         updateGrid(c);
+        updateLabel("Updated");
     }
-    */
+     */
+
 
     /**
      * Draw the initial JFrame object
      */
-    public static void initDraw() {
+    public void initDraw() {
         GridDisplay xyz = new GridDisplay(400, 400, 20, 20);
-        f.add(xyz);
+        xyz.setPreferredSize(new Dimension(400, 400));
+        l = new JLabel(labelText);
+        JPanel p = new JPanel();
+        p.add(xyz);
+        p.add(l);
+        f.getContentPane().add(p);
         f.pack();
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setSize(416, 438);
+        f.setSize(750, 450);
         f.setVisible(true);
     }
 
@@ -64,9 +74,17 @@ public class GridDisplay extends JPanel {
      * Update the JFrame object to match the new grid
      * @param c New grid to draw
      */
-    public static void updateGrid(CellDisplay[][] c) {
+    public void updateGrid(CellDisplay[][] c) {
         cells = c;
         f.repaint();
+    }
+
+    /**
+     * Update the displayed text
+     * @param s New String to display
+     */
+    public void updateLabel(String s) {
+        l.setText(s);
     }
 
     /**
@@ -112,4 +130,6 @@ public class GridDisplay extends JPanel {
     public int getColumns() {
         return columns;
     }
+
+    public String getLabelText() { return labelText; }
 }

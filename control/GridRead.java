@@ -12,7 +12,8 @@ public class GridRead {
 
     // Used to get adjacent cells
     private static int[][] directions = new int[][]{{-1,-1}, {-1,0}, {-1,1},  {0,1}, {1,1},  {1,0},  {1,-1},  {0, -1}};
-    
+    // Directions below are from the perspective of the adjacent cell --> cell we're checking to see will be on fire
+    private static String[] directions_String = new String[]{"North, East", "East", "South, East",  "South", "South, West",  "West",  "North, West",  "North"};
     
     private Grid grid;
     private GridDisplay display;
@@ -78,12 +79,66 @@ public class GridRead {
         return res;
     }
 
+    public List<String> getSurroundings_NSEW(int x, int y){
+        List<String> res = new ArrayList<String>();
+        int currDirectionIndex = 0;
+        for (int[] direction : directions) {
+            int cx = x + direction[0];
+            int cy = y + direction[1];
+            // Only get directions of cells that are on fire
+            if(grid.getGridCell(cx,cy).getOnFire())
+                if(cx >=0 && cx < grid.getGridCells().length)
+                    if(cy >= 0 && cy < grid.getGridCells()[cx].length)
+                        res.add(directions_String[currDirectionIndex]);
+            currDirectionIndex++;
+        }
+        
+        return res;
+    }
+
+    /**
+     * Gets the number of cells that have the help 
+     * @param directions
+     * @return
+     */
+    private int getCellsWindHelps(List<String> directions)
+    {
+        int result = 0;
+        int windDirection = grid.getWindDirection();
+        String windDirection_String = "";
+        switch (windDirection){
+            case 1:
+                windDirection_String = "North";
+                break;
+            case 2:
+                windDirection_String = "East";
+                break;
+            case 3:
+                windDirection_String = "South";
+                break;
+            case 4:
+                windDirection_String = "West";
+                break;
+            default:
+                System.out.println("Invalid wind direction encoding.");
+                break;
+        }
+
+        for(String dir : directions){
+            if(windDirection_String.contains(dir)){
+                result++;
+            }
+        }
+
+        return result;
+    }
+
     public double getSpreadChance(int i, int j){
         // Get number of adjacent cells
         List<GridCell> adjacentCells = getSurroundings(i, j);
         int numCells = adjacentCells.size();
-
-        // Get number of adjacent cells that are on fire
+        List<String> adjacentCells_NSEW = getSurroundings_NSEW(i, j); // Gets cells that are on fire only (unlike original getSurroundings())
+        int numCellsWithWindHelp = getCellsWindHelps(adjacentCells_NSEW); 
         double numCellsOnFire = 0; // This needs to be a double so that we can get regular division
                                   // and not get thrown 0 as our return value.
         for(GridCell gc : adjacentCells){
@@ -96,6 +151,7 @@ public class GridRead {
         int vegetationDensity = this.grid.getGridCell(i, j).getVegetationDensity();
 
         // Calculate chance to spread
+        // TODO: Change to account for wind direction here.
         return (numCellsOnFire / numCells) * vegetationDensity / 100;
     }
     

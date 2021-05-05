@@ -97,12 +97,13 @@ public class GridRead {
     }
 
     /**
-     * Gets the number of cells that have the help 
-     * @param directions
-     * @return
+     * Gets the number of cells that have the help of wind.
+     * @param directions Cardinal directions of adjacent cells (from adjacent cell to given cell)
+     * @return Number of cells that wind blows in direction of given cell
      */
     private int getCellsWindHelps(List<String> directions)
     {
+
         int result = 0;
         int windDirection = grid.getWindDirection();
         String windDirection_String = "";
@@ -125,7 +126,7 @@ public class GridRead {
         }
 
         for(String dir : directions){
-            if(windDirection_String.contains(dir)){
+            if(windDirection_String.equals(dir)){
                 result++;
             }
         }
@@ -137,21 +138,25 @@ public class GridRead {
         // Get number of adjacent cells
         List<GridCell> adjacentCells = getSurroundings(i, j);
         int numCells = adjacentCells.size();
-        List<String> adjacentCells_NSEW = getSurroundings_NSEW(i, j); // Gets cells that are on fire only (unlike original getSurroundings())
-        int numCellsWithWindHelp = getCellsWindHelps(adjacentCells_NSEW); 
-        double numCellsOnFire = 0; // This needs to be a double so that we can get regular division
-                                  // and not get thrown 0 as our return value.
+        // Get number of adjacent cells that are on fire
+        double numCellsOnFire = 0;
         for(GridCell gc : adjacentCells){
             if(gc.getOnFire() == true){
                 numCellsOnFire++;
             }
         }
 
+        // Check if any adjacent cell that's on fire has wind blowing it towards the given cell
+        List<String> adjacentCells_NSEW = getSurroundings_NSEW(i, j); // Checks cells that are on fire only
+        int numCellsWithWindHelp = getCellsWindHelps(adjacentCells_NSEW);
+        if(numCellsWithWindHelp > 0){
+            numCellsOnFire += numCellsWithWindHelp + 1.1 * grid.getWindSpeed();
+        }
+
         // Get vegetation density
         int vegetationDensity = this.grid.getGridCell(i, j).getVegetationDensity();
 
         // Calculate chance to spread
-        // TODO: Change to account for wind direction here.
         return (numCellsOnFire / numCells) * vegetationDensity / 100;
     }
     

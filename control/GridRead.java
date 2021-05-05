@@ -64,14 +64,14 @@ public class GridRead {
      * @param y Y coordinate
      * @return List of surrounding items.
      */
-    public List<GridCell> getSurroundings(int x, int y){
+    public List<GridCell> getSurroundings(int x, int y, Grid oldGrid){
         List<GridCell> res = new ArrayList<GridCell>();
         for (int[] direction : directions) {
             int cx = x + direction[0];
             int cy = y + direction[1];
-            if(cx >=0 && cx < grid.getGridCells().length)
-                if(cy >= 0 && cy < grid.getGridCells()[cx].length)
-                    res.add(grid.getGridCells()[cx][cy]);
+            if(cx >=0 && cx < oldGrid.getGridCells().length)
+                if(cy >= 0 && cy < oldGrid.getGridCells()[cx].length)
+                    res.add(oldGrid.getGridCells()[cx][cy]);
         }
         
         return res;
@@ -132,9 +132,9 @@ public class GridRead {
         return result;
     }
 
-    public double getSpreadChance(int i, int j){
+    public double getSpreadChance(int i, int j, Grid oldGrid){
         // Get number of adjacent cells
-        List<GridCell> adjacentCells = getSurroundings(i, j);
+        List<GridCell> adjacentCells = getSurroundings(i, j, oldGrid);
         int numCells = adjacentCells.size();
         // Get number of adjacent cells that are on fire
         double numCellsOnFire = 0;
@@ -148,11 +148,11 @@ public class GridRead {
         List<String> adjacentCells_NSEW = getSurroundings_NSEW(i, j); // Checks cells that are on fire only
         int numCellsWithWindHelp = getCellsWindHelps(adjacentCells_NSEW);
         if(numCellsWithWindHelp > 0){
-            numCellsOnFire += numCellsWithWindHelp + 0.1 * grid.getWindSpeed();
+            numCellsOnFire += numCellsWithWindHelp + 0.1 * oldGrid.getWindSpeed();
         }
 
         // Get vegetation density
-        int vegetationDensity = this.grid.getGridCell(i, j).getVegetationDensity();
+        int vegetationDensity = oldGrid.getGridCell(i, j).getVegetationDensity();
 
         // Calculate chance to spread
         return (numCellsOnFire / numCells) * vegetationDensity / 100;
@@ -167,7 +167,7 @@ public class GridRead {
     		{
     			if (!oldGrid.getGridCell(i, j).getOnFire())
     			{
-    				double spreadChance = getSpreadChance(i, j);	// Chance of fire to spread to current square
+    				double spreadChance = getSpreadChance(i, j, oldGrid);	// Chance of fire to spread to current square
         			// Calculate probability here
         			
         			// Sets cell on fire based on calculated spreadChance
@@ -208,6 +208,8 @@ public class GridRead {
 				oldGrid.setGridCell(new GridCell(cell.getVegetationDensity(), cell.getOnFire()), i, j);
 			}
 		}
+    	oldGrid.setWindSpeed(grid.getWindSpeed());
+    	oldGrid.setWindDirection(grid.getWindDirection());
     	return oldGrid;
 	}
 }

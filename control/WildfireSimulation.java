@@ -12,10 +12,10 @@ public class WildfireSimulation {
 	public static void main(String[] args) throws InterruptedException {
 		
 		// Default argument values
-		String input = "src/grids/random.ser";
+		String input = "SSMGroupProject/grids/random.ser";
 		int simulations = 100;
 		int iterations  = 30;
-		int timestep = 20;
+		int timestep = 120;
 		int x = 10;
 		int y = 10;
 		
@@ -96,11 +96,13 @@ public class WildfireSimulation {
 			boolean onFire = false;
 			for (int j = 0; j < iterations; j++) 
 			{
-				// Updates controller
-				controller.step();
+				Thread.sleep(timestep);
 				// Update display
 				display.updateGrid(controller.gridToDisplay(grid));
-				Thread.sleep(timestep);
+				// Updates controller
+				controller.step();
+
+
 				if(grid.getGridCell(x, y).getOnFire())
 				{
 					onFire = true;

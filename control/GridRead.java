@@ -48,7 +48,6 @@ public class GridRead {
 
     /**
      * Checks whether or not a grid cell at a given point is on fire or not.
-     * @param grid Grid being used for simulation.
      * @param x X coordinate of grid.
      * @param y Y coordinate of grid.
      * @return Whether or not the grid cell is on fire.
@@ -60,8 +59,7 @@ public class GridRead {
     /**
      * Returns all grid cells from a given x, y coordinate.
      * WILL NOT include given coordinate in returned List.
-     * 
-     * @param grid The 2d array that the Grid is composed of.
+     *
      * @param x X coordinate
      * @param y Y coordinate
      * @return List of surrounding items.
@@ -150,7 +148,7 @@ public class GridRead {
         List<String> adjacentCells_NSEW = getSurroundings_NSEW(i, j); // Checks cells that are on fire only
         int numCellsWithWindHelp = getCellsWindHelps(adjacentCells_NSEW);
         if(numCellsWithWindHelp > 0){
-            numCellsOnFire += numCellsWithWindHelp + 1.1 * grid.getWindSpeed();
+            numCellsOnFire += numCellsWithWindHelp + 0.1 * grid.getWindSpeed();
         }
 
         // Get vegetation density
@@ -162,11 +160,12 @@ public class GridRead {
     
     public void step()
     {
+    	Grid oldGrid = cloneGrid(grid);
     	for (int i = 0; i < 20; i++)
     	{
     		for (int j = 0; j < 20; j++)
     		{
-    			if (!grid.getGridCell(i, j).getOnFire())
+    			if (!oldGrid.getGridCell(i, j).getOnFire())
     			{
     				double spreadChance = getSpreadChance(i, j);	// Chance of fire to spread to current square
         			// Calculate probability here
@@ -201,5 +200,14 @@ public class GridRead {
     	}
     }
     
-    
+    public Grid cloneGrid(Grid grid) {
+    	Grid oldGrid = new Grid(20, 20);
+    	for(int i = 0; i<20; i++) {
+			for (int j = 0; j < 20; j++) {
+				GridCell cell = grid.getGridCell(i, j);
+				oldGrid.setGridCell(new GridCell(cell.getVegetationDensity(), cell.getOnFire()), i, j);
+			}
+		}
+    	return oldGrid;
+	}
 }

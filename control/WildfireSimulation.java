@@ -10,15 +10,17 @@ import view.GridDisplay;
 public class WildfireSimulation {
 
 	public static void main(String[] args) throws InterruptedException {
-		String input = "grids/random.ser";
+		String input = "src/grids/random.ser";
 		
 		int x = 10;
 		int y = 10;
 		int count = 0;
 		
+		GridDisplay display = new GridDisplay(400, 400, 20, 20);
+		display.initDraw();
+		
 		for (int i = 0; i < 100; i++)
 		{
-			
 			// Read grid from given file
 			Grid grid = null;
 			try 
@@ -39,13 +41,12 @@ public class WildfireSimulation {
 				c.printStackTrace();
 			}
 
-			GridDisplay display = new GridDisplay(400, 400, 20, 20);
-
+			
+			
 			// Create controller
 			GridRead controller = new GridRead(grid, display);
-			display.initDraw();
+			
 			display.updateGrid(controller.gridToDisplay(grid));
-		
 			boolean onFire = false;
 			for (int j = 0; j < 30; j++) 
 			{
@@ -65,7 +66,10 @@ public class WildfireSimulation {
 				count++;
 				
 			}
-			System.out.println("Iteration: " + i + "\tCell On Fire: " + grid.getGridCell(x, y).getOnFire() + "\tCount: " + count + "\tP: " + count/(i+1.0));
+			String info = "Iteration: " + i + "    Cell On Fire: " + onFire + "    Count: " 
+					+ count + "    P: " + String.format("%.3f", count/(i+1.0));
+			System.out.println(info);
+			display.updateLabel(info);
 		}
 
 	}

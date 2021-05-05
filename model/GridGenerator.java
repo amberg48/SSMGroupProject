@@ -23,6 +23,8 @@ public class GridGenerator {
 			}
 		}
 		grid.getGridCell(0, 0).setOnFire(true);
+		grid.setWindSpeed(0);
+		grid.setWindDirection(1);
 		return grid;
 	}
 	
@@ -38,6 +40,8 @@ public class GridGenerator {
 			}
 		}
 		grid.getGridCell(rand.nextInt(20), rand.nextInt(20)).setOnFire(true);
+		grid.setWindSpeed(rand.nextInt(30));
+		grid.setWindDirection(rand.nextInt(4) + 1);
 		return grid;
 	}
 

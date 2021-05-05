@@ -56,7 +56,7 @@ public class GridDisplay extends JPanel {
     /**
      * Draw the initial JFrame object
      */
-    public static void initDraw() {
+    public void initDraw() {
         GridDisplay xyz = new GridDisplay(400, 400, 20, 20);
         xyz.setPreferredSize(new Dimension(400, 400));
         l = new JLabel(labelText);
@@ -74,7 +74,7 @@ public class GridDisplay extends JPanel {
      * Update the JFrame object to match the new grid
      * @param c New grid to draw
      */
-    public static void updateGrid(CellDisplay[][] c) {
+    public void updateGrid(CellDisplay[][] c) {
         cells = c;
         f.repaint();
     }
@@ -83,7 +83,7 @@ public class GridDisplay extends JPanel {
      * Update the displayed text
      * @param s New String to display
      */
-    public static void updateLabel(String s) {
+    public void updateLabel(String s) {
         l.setText(s);
     }
 

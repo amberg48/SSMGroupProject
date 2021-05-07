@@ -12,7 +12,7 @@ public class WildfireSimulation {
 	public static void main(String[] args) throws InterruptedException {
 		
 		// Default argument values
-		String input = "SSMGroupProject/grids/random.ser";
+		String input = "grids/random.ser";
 		int simulations = 100;
 		int iterations  = 30;
 		int timestep = 120;

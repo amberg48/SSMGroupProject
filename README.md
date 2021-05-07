@@ -1,5 +1,7 @@
 # SSMGroupProject
 
-Github Repository for SSM Project Spring 2021.
+Wildfire Simulation project for Dr. Gregory Safko's Introduction to Systems Simulation and Modeling class, Spring 2021
 
-VSC push test.
+Group members: Brett Amberge, Meredith Baubles, Gavin Coulthurst and Matthew Marchiano
+
+Simulate the ignition and spread of an uncontrolled wild fire based on the fuel levels (vegetation density), wind speed and wind direction in a given area.
